@@ -36,7 +36,7 @@
       "specSection": "7.1"
     },
     {
-      "name": "handles empty string in single-item array",
+      "name": "encodes empty string in single-item array",
       "input": {
         "items": [""]
       },
@@ -44,7 +44,7 @@
       "specSection": "7.1"
     },
     {
-      "name": "handles empty string in multi-item array",
+      "name": "encodes empty string in multi-item array",
       "input": {
         "items": ["a", "", "b"]
       },
@@ -52,7 +52,7 @@
       "specSection": "7.1"
     },
     {
-      "name": "handles whitespace-only strings in arrays",
+      "name": "encodes whitespace-only strings in arrays",
       "input": {
         "items": [" ", "  "]
       },

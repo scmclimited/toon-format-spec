@@ -15,7 +15,7 @@
       "specSection": "7.2"
     },
     {
-      "name": "handles null values in tabular format",
+      "name": "encodes null values in tabular format",
       "input": {
         "items": [
           { "id": 1, "value": null },
@@ -48,7 +48,7 @@
       "specSection": "7.2"
     },
     {
-      "name": "handles tabular arrays with keys needing quotes",
+      "name": "encodes tabular arrays with keys needing quotes",
       "input": {
         "items": [
           { "order:id": 1, "full name": "Ada" },

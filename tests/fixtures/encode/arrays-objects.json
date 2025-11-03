@@ -87,7 +87,7 @@
       "specSection": "7"
     },
     {
-      "name": "handles objects with empty arrays in list format",
+      "name": "encodes objects with empty arrays in list format",
       "input": {
         "items": [
           { "name": "test", "data": [] }

@@ -20,7 +20,7 @@
       "specSection": "7.3"
     },
     {
-      "name": "handles empty inner arrays",
+      "name": "encodes empty inner arrays",
       "input": {
         "pairs": [[], []]
       },
@@ -28,7 +28,7 @@
       "specSection": "7.3"
     },
     {
-      "name": "handles mixed-length inner arrays",
+      "name": "encodes mixed-length inner arrays",
       "input": {
         "pairs": [[1], [2, 3]]
       },
