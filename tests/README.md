@@ -25,16 +25,18 @@ tests/
 │   │   ├── arrays-nested.json
 │   │   ├── arrays-objects.json
 │   │   ├── delimiters.json
-│   │   ├── normalization.json
 │   │   ├── whitespace.json
 │   │   └── options.json
 │   └── decode/             # Decoding tests (TOON → JSON)
 │       ├── primitives.json
+│       ├── numbers.json
 │       ├── objects.json
 │       ├── arrays-primitive.json
 │       ├── arrays-tabular.json
 │       ├── arrays-nested.json
 │       ├── delimiters.json
+│       ├── whitespace.json
+│       ├── root-form.json
 │       ├── validation-errors.json
 │       ├── indentation-errors.json
 │       └── blank-lines.json
@@ -88,13 +90,13 @@ All test fixtures follow a standard JSON structure defined in [`fixtures.schema.
 {
   "delimiter": ",",
   "indent": 2,
-  "lengthMarker": ""
+  "lengthMarker": "#"
 }
 ```
 
 - `delimiter`: `","` (comma, default), `"\t"` (tab), or `"|"` (pipe)
 - `indent`: Number of spaces per indentation level (default: `2`)
-- `lengthMarker`: `"#"` to prefix array lengths, or `""` for no marker (default: `""`)
+- `lengthMarker`: Optional. Set to `"#"` to prefix array lengths (e.g., `[#3]`). Omit this property to disable length markers
 
 #### Decoding Options
 
@@ -143,30 +145,32 @@ The fixture format is language-agnostic JSON, so you can load and iterate it usi
 
 | File | Description | Spec Sections |
 |------|-------------|---------------|
-| `primitives.json` | String, number, boolean, null encoding and escaping | §5 |
-| `objects.json` | Simple objects, nested objects, key encoding | §6 |
-| `arrays-primitive.json` | Inline primitive arrays, empty arrays | §7.1 |
-| `arrays-tabular.json` | Tabular format with header and rows | §7.2 |
-| `arrays-nested.json` | Arrays of arrays, mixed arrays | §7.3 |
-| `arrays-objects.json` | Objects as list items, complex nesting | §7 |
-| `delimiters.json` | Tab and pipe delimiter options | §8 |
-| `normalization.json` | BigInt, Date, undefined, NaN, Infinity handling | §5 |
-| `whitespace.json` | Formatting invariants and indentation | §4 |
+| `primitives.json` | String, number, boolean, null encoding and escaping | §7.1/§7.2, §2 |
+| `objects.json` | Simple objects, nested objects, key encoding | §8 (keys: §7.3/§7.1) |
+| `arrays-primitive.json` | Inline primitive arrays, empty arrays | §9.1 |
+| `arrays-tabular.json` | Tabular format with header and rows | §9.3 |
+| `arrays-nested.json` | Arrays of arrays, mixed arrays | §9.2/§9.4 |
+| `arrays-objects.json` | Objects as list items, complex nesting | §9, §10 |
+| `delimiters.json` | Tab and pipe delimiter options | §11 |
+| `whitespace.json` | Formatting invariants and indentation | §12 |
 | `options.json` | Length marker and delimiter option combinations | §3 |
 
 ### Decoding Tests (`fixtures/decode/`)
 
 | File | Description | Spec Sections |
 |------|-------------|---------------|
-| `primitives.json` | Parsing primitives, unescaping, ambiguity | §5 |
-| `objects.json` | Parsing objects, keys, nesting | §6 |
-| `arrays-primitive.json` | Inline array parsing | §7.1 |
-| `arrays-tabular.json` | Tabular format parsing | §7.2 |
-| `arrays-nested.json` | Nested and mixed array parsing | §7.3 |
-| `delimiters.json` | Delimiter detection and parsing | §8 |
-| `validation-errors.json` | Syntax errors, length mismatches, malformed input | §9 |
-| `indentation-errors.json` | Strict mode indentation validation | §9 |
-| `blank-lines.json` | Blank line handling in arrays | §9 |
+| `primitives.json` | Parsing primitives, unescaping, ambiguity | §4, §7.1/§7.4 |
+| `numbers.json` | Number edge cases, exponent forms, leading zeros | §4 |
+| `objects.json` | Parsing objects, keys, nesting | §8 (keys: §7.3/§7.1) |
+| `arrays-primitive.json` | Inline array parsing | §9.1 |
+| `arrays-tabular.json` | Tabular format parsing | §9.3 |
+| `arrays-nested.json` | Nested and mixed array parsing | §9.2/§9.4 |
+| `delimiters.json` | Delimiter detection and parsing | §11 |
+| `whitespace.json` | Whitespace tolerance and token trimming | §12 |
+| `root-form.json` | Root form detection (empty, single primitive) | §5 |
+| `validation-errors.json` | Syntax errors, length mismatches, malformed input | §14 |
+| `indentation-errors.json` | Strict mode indentation validation | §14.3, §12 |
+| `blank-lines.json` | Blank line handling in arrays | §14.4, §12 |
 
 ## Validating Fixtures
 

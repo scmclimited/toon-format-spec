@@ -57,16 +57,6 @@ https://www.unicode.org/versions/Unicode15.1.0/
 **[ISO8601]** ISO 8601:2019, "Date and time — Representations for information interchange".
 https://www.iso.org/standard/70907.html
 
-## Conventions and Terminology
-
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC2119] and [RFC8174] when, and only when, they appear in all capitals, as shown here.
-
-Audience: implementers of encoders/decoders/validators; tool authors; practitioners embedding TOON in LLM prompts.
-
-All normative text in this specification is contained in Sections 1-16 and Section 19. All appendices are informative except where explicitly marked normative. Examples throughout this document are informative unless explicitly stated otherwise.
-
-Implementations that fail to conform to any MUST or REQUIRED level requirement are non-conformant. Implementations that conform to all MUST and REQUIRED level requirements but fail to conform to SHOULD or RECOMMENDED level requirements are said to be "not fully conformant" but are still considered conformant.
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -101,7 +91,7 @@ Implementations that fail to conform to any MUST or REQUIRED level requirement a
 - [Appendix F: Cross-check With Reference Behavior (Informative)](#appendix-f-cross-check-with-reference-behavior-informative)
 - [Appendix G: Host Type Normalization Examples (Informative)](#appendix-g-host-type-normalization-examples-informative)
 
-## Introduction
+## Introduction (Informative)
 
 TOON (Token-Oriented Object Notation) is a line-oriented, indentation-based format designed to carry structured JSON-compatible data into LLM prompts with fewer tokens and clearer structure than JSON. TOON's sweet spot is arrays of uniform objects (multiple fields per row, same structure across items) where it removes repeated keys and punctuation while preserving enough structure for robust parsing and validation.
 
@@ -153,6 +143,16 @@ This specification defines:
 - Security and internationalization considerations (Sections 15-16)
 
 ## 1. Terminology and Conventions
+
+### 1.1 Use of RFC2119 Keywords and Normativity
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC2119] and [RFC8174] when, and only when, they appear in all capitals, as shown here.
+
+Audience: implementers of encoders/decoders/validators; tool authors; practitioners embedding TOON in LLM prompts.
+
+All normative text in this specification is contained in Sections 1-16 and Section 19. All appendices are informative except where explicitly marked normative. Examples throughout this document are informative unless explicitly stated otherwise.
+
+Implementations that fail to conform to any MUST or REQUIRED level requirement are non-conformant. Implementations that conform to all MUST and REQUIRED level requirements but fail to conform to SHOULD or RECOMMENDED level requirements are said to be "not fully conformant" but are still considered conformant.
 
 ### Core Concepts
 
@@ -253,6 +253,10 @@ Decoders map text tokens to host values:
     - MUST accept standard decimal and exponent forms (e.g., 42, -3.14, 1e-6, -1E+9).
     - MUST treat tokens with forbidden leading zeros (e.g., "05", "0001") as strings (not numbers).
     - Only finite numbers are expected from conforming encoders.
+    - Decoding examples:
+      - `"1.5000"` → numeric value `1.5` (trailing zeros in fractional part are accepted)
+      - `"-1E+03"` → numeric value `-1000` (exponent forms are accepted)
+      - `"-0"` → numeric value `0` (negative zero decodes to zero; most host environments do not distinguish -0 from 0)
   - Otherwise → string.
 - Keys:
   - Decoded as strings (quoted keys MUST be unescaped per Section 7.1).
@@ -273,9 +277,14 @@ TOON is a deterministic, line-oriented, indentation-based notation.
     - Otherwise: expanded list items: key[N<delim?>]: with "- …" items (see Sections 9.4 and 10).
 - Root form discovery:
   - If the first non-empty depth-0 line is a valid root array header per Section 6 (must include a colon), decode a root array.
-  - Else if the document has exactly one non-empty line and it is neither a valid array header nor a key-value line (quoted or unquoted key), decode a single primitive.
+  - Else if the document has exactly one non-empty line and it is neither a valid array header nor a key-value line (quoted or unquoted key), decode a single primitive (examples: `hello`, `42`, `true`).
   - Otherwise, decode an object.
-  - In strict mode, multiple non-key/value non-header lines at depth 0 is invalid.
+  - In strict mode, if there are two or more non-empty depth-0 lines that are neither headers nor key-value lines, the document is invalid. Example of invalid input (strict mode):
+    ```
+    hello
+    world
+    ```
+    This would be two primitives at root depth, which is not a valid TOON document structure.
 
 ## 6. Header Syntax (Normative)
 
@@ -301,7 +310,7 @@ Spacing and delimiters:
 - The active delimiter declared by the bracket segment applies to:
   - splitting inline primitive arrays on that header line,
   - splitting tabular field names in "{…}",
-  - splitting all rows/items within the header’s scope,
+  - splitting all rows/items within the header's scope,
   - unless a nested header changes it.
 - The same delimiter symbol declared in the bracket MUST be used in the fields segment and in all row/value splits in that scope.
 - Absence of a delimiter symbol in a bracket segment ALWAYS means comma, regardless of any parent header.
@@ -334,6 +343,8 @@ unquoted-key  = ( ALPHA / "_" ) *( ALPHA / DIGIT / "_" / "." )
 ; (Exact escaped-char repertoire is defined in Section 7.1)
 ; quoted-key   = DQUOTE *(escaped-char / safe-char) DQUOTE
 ```
+
+Note: The ABNF grammar above cannot enforce that the delimiter used in the fields segment (braces) matches the delimiter declared in the bracket segment. This equality requirement is normative per the prose in lines 311-312 above and MUST be enforced by implementations. Mismatched delimiters between bracket and brace segments MUST error in strict mode.
 
 Note: The grammar above specifies header syntax. TOON's grammar is deliberately designed to prioritize human readability and token efficiency over strict LR(1) parseability. This requires some context-sensitive parsing (particularly for tabular row disambiguation in Section 9.3), which is a deliberate design tradeoff. Reference implementations demonstrate that deterministic parsing is achievable with modest lookahead.
 
@@ -438,7 +449,7 @@ Tabular detection (encoding; MUST hold for all elements):
 - All values across these keys are primitives (no nested arrays/objects).
 
 When satisfied (encoding):
-- Header: key[N<delim?>]{f1<delim>f2<delim>…}: where field order is the first object’s key encounter order.
+- Header: key[N<delim?>]{f1<delim>f2<delim>…}: where field order is the first object's key encounter order.
 - Field names encoded per Section 7.3.
 - Rows: one line per object at depth +1 under the header; values are encoded primitives (Section 7) and joined by the active delimiter.
 - Root tabular arrays omit the key: [N<delim?>]{…}: followed by rows.
@@ -447,7 +458,7 @@ Decoding:
 - A tabular header declares the active delimiter and ordered field list.
 - Rows appear at depth +1 as delimiter-separated value lines.
 - Strict mode MUST enforce:
-  - Each row’s value count equals the field count.
+  - Each row's value count equals the field count.
   - The number of rows equals N.
 - Disambiguation at row depth (unquoted tokens):
   - Compute the first unquoted occurrence of the active delimiter and the first unquoted colon.
@@ -503,12 +514,12 @@ Decoding:
   - Tab: header includes HTAB inside brackets and braces (e.g., [N<TAB>], {a<TAB>b}); rows/inline arrays use tabs.
   - Pipe: header includes "|" inside brackets and braces; rows/inline arrays use "|".
 - Document vs Active delimiter:
-  - Encoders select a document delimiter (option) that influences quoting in contexts not governed by an array header (e.g., object values).
-  - Inside an array header’s scope, the active delimiter governs splitting and quoting of inline arrays and tabular rows for that array.
-  - Absence of a delimiter symbol in a header ALWAYS means comma for that array’s scope; it does not inherit from any parent.
+  - Encoders select a document delimiter (option) that influences quoting for all object values (key: value) throughout the document.
+  - Inside an array header's scope, the active delimiter governs splitting and quoting only for inline arrays and tabular rows that the header introduces. Object values (key: value) follow document-delimiter quoting rules regardless of array scope.
+  - Absence of a delimiter symbol in a header ALWAYS means comma for that array's scope; it does not inherit from any parent.
 - Delimiter-aware quoting (encoding):
-  - Within an array’s scope, strings containing the active delimiter MUST be quoted to avoid splitting.
-  - Outside any array scope, encoders SHOULD use the document delimiter to decide delimiter-aware quoting for values.
+  - Inline array values and tabular row cells: strings containing the active delimiter MUST be quoted to avoid splitting.
+  - Object values (key: value): encoders use the document delimiter to decide delimiter-aware quoting, regardless of whether the object appears within an array's scope.
   - Strings containing non-active delimiters do not require quoting unless another quoting condition applies (Section 7.2).
 - Delimiter-aware parsing (decoding):
   - Inline arrays and tabular rows MUST be split only on the active delimiter declared by the nearest array header.
@@ -638,7 +649,8 @@ When strict mode is enabled (default), decoders MUST error on the following cond
 ### 14.4 Structural Errors
 
 - Blank lines inside arrays/tabular rows.
-- Empty input (document with no non-empty lines after ignoring trailing newline(s) and ignorable blank lines outside arrays/tabular rows).
+
+Note: A completely empty document (no non-empty lines after ignoring trailing newline(s) and ignorable blank lines) decodes to an empty object `{}`.
 
 ### 14.5 Recommended Error Messages and Validator Diagnostics (Informative)
 
@@ -997,6 +1009,7 @@ These sketches illustrate structure and common decoding helpers. They are inform
 - If token starts with a quote, it MUST be a properly quoted string (no trailing characters after the closing quote). Unescape using only the five escapes; otherwise MUST error.
 - Else if token is true/false/null → boolean/null.
 - Else if token is numeric without forbidden leading zeros and finite → number.
+  - Examples: `"1.5000"` → `1.5`, `"-1E+03"` → `-1000`, `"-0"` → `0` (host normalization applies)
 - Else → string.
 
 ### B.5 Object and List Item Parsing
@@ -1214,37 +1227,19 @@ Implementations in any language SHOULD:
 
 ## 19. TOON Core Profile (Normative Subset)
 
-This profile captures the most common, memory-friendly rules.
+This profile captures the most common, memory-friendly rules by reference to normative sections.
 
-- Character set: UTF-8; LF line endings.
-- Indentation: 2 spaces per level (configurable indentSize).
-  - Strict mode: leading spaces MUST be a multiple of indentSize; tabs in indentation MUST error.
-- Keys:
-  - Unquoted if they match ^[A-Za-z_][A-Za-z0-9_.]*$; otherwise quoted.
-  - A colon MUST follow a key.
-- Strings:
-  - Only these escapes allowed in quotes: \\, \", \n, \r, \t.
-  - Quote if empty; leading/trailing whitespace; equals true/false/null; numeric-like; contains colon/backslash/quote/brackets/braces/control char; contains the relevant delimiter (active inside arrays, document otherwise); equals "-" or starts with "-".
-- Numbers:
-  - Encoder emits non-exponential decimal; -0 → 0.
-  - Decoder accepts decimal and exponent forms; tokens with forbidden leading zeros decode as strings.
-- Arrays and headers:
-  - Header: [#?N[delim?]] where delim is absent (comma), HTAB (tab), or "|" (pipe).
-  - Keyed header: key[#?N[delim?]]:. Optional fields: {f1<delim>f2}.
-  - Primitive arrays inline: key[N]: v1<delim>v2. Empty arrays: key[0]: (no values).
-  - Tabular arrays: key[N]{fields}: then N rows at depth +1.
-  - Otherwise list form: key[N]: then N items, each starting with "- ".
-- Delimiters:
-  - Only split on the active delimiter from the nearest header. Non-active delimiters never split.
-- Objects as list items:
-  - "- value" (primitive), "- [M]: …" (inline array), or "- key: …" (object).
-  - If first field is "- key:" with nested object: nested fields at +2; subsequent sibling fields at +1.
-- Root form:
-  - Root array if the first depth-0 line is a header (per Section 6).
-  - Root primitive if exactly one non-empty line and it is not a header or key-value.
-  - Otherwise object.
-- Strict mode checks:
-  - All count/width checks; missing colon; invalid escapes; indentation multiple-of-indentSize; delimiter mismatches via count checks; blank lines inside arrays/tabular rows; empty input.
+- Character set and line endings: As defined in §1 (Core Concepts) and §12.
+- Indentation: MUST conform to §12 (2 spaces per level by default; strict mode enforces indentSize multiples).
+- Keys and colon syntax: MUST conform to §7.2 (unquoted keys match ^[A-Za-z_][A-Za-z0-9_.]*$; quoted otherwise; colon required after keys).
+- Strings and quoting: MUST be quoted as defined in §7.2 (deterministic quoting rules for empty strings, whitespace, reserved literals, control characters, delimiters, leading hyphens, and structural tokens).
+- Escape sequences: MUST conform to §7.1 (only \\, \", \n, \r, \t are valid).
+- Numbers: Encoders MUST emit canonical form per §2; decoders MUST accept input per §4.
+- Arrays and headers: Header syntax MUST conform to §6; array encoding as defined in §9.
+- Delimiters: Delimiter scoping and quoting rules as defined in §11.
+- Objects as list items: Indentation rules as defined in §10.
+- Root form determination: As defined in §5.
+- Strict mode validation: All checks enumerated in §14.
 
 ## 20. Versioning and Extensibility
 

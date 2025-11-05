@@ -69,9 +69,8 @@
               },
               "lengthMarker": {
                 "type": "string",
-                "enum": ["#", ""],
-                "description": "Optional marker to prefix array lengths (encode only)",
-                "default": ""
+                "const": "#",
+                "description": "Optional marker to prefix array lengths (encode only). Omit to disable the marker."
               },
               "strict": {
                 "type": "boolean",
@@ -95,7 +94,7 @@
             "type": "string",
             "description": "Minimum specification version required for this test",
             "pattern": "^\\d+\\.\\d+$",
-            "examples": ["1.0", "1.3"]
+            "examples": ["1.0", "1.4"]
           }
         },
         "additionalProperties": false

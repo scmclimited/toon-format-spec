@@ -1,7 +1,7 @@
 # TOON Format Specification
 
-[![SPEC v1.3](https://img.shields.io/badge/spec-v1.3-lightgrey)](./SPEC.md)
-[![Tests](https://img.shields.io/badge/tests-306-green)](./tests/fixtures/)
+[![SPEC v1.4](https://img.shields.io/badge/spec-v1.4-lightgrey)](./SPEC.md)
+[![Tests](https://img.shields.io/badge/tests-322-green)](./tests/fixtures/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 This repository contains the official specification for **Token-Oriented Object Notation (TOON)**, a compact, human-readable serialization format designed for passing structured data to Large Language Models with significantly reduced token usage.
@@ -10,7 +10,7 @@ This repository contains the official specification for **Token-Oriented Object 
 
 [→ Read the full specification (SPEC.md)](./SPEC.md)
 
-- **Version:** 1.3 (2025-10-31)
+- **Version:** 1.4 (2025-11-05)
 - **Status:** Working Draft
 - **License:** MIT
 

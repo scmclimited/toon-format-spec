@@ -12,7 +12,7 @@
         ]
       },
       "expected": "items[2]{sku,qty,price}:\n  A1,2,9.99\n  B2,1,14.5",
-      "specSection": "7.2"
+      "specSection": "9.3"
     },
     {
       "name": "encodes null values in tabular format",
@@ -23,7 +23,7 @@
         ]
       },
       "expected": "items[2]{id,value}:\n  1,null\n  2,test",
-      "specSection": "7.2"
+      "specSection": "9.3"
     },
     {
       "name": "quotes strings containing delimiters in tabular rows",
@@ -34,7 +34,7 @@
         ]
       },
       "expected": "items[2]{sku,desc,qty}:\n  \"A,1\",cool,2\n  B2,\"wip: test\",1",
-      "specSection": "7.2"
+      "specSection": "9.3"
     },
     {
       "name": "quotes ambiguous strings in tabular rows",
@@ -45,7 +45,7 @@
         ]
       },
       "expected": "items[2]{id,status}:\n  1,\"true\"\n  2,\"false\"",
-      "specSection": "7.2"
+      "specSection": "9.3"
     },
     {
       "name": "encodes tabular arrays with keys needing quotes",
@@ -56,7 +56,7 @@
         ]
       },
       "expected": "items[2]{\"order:id\",\"full name\"}:\n  1,Ada\n  2,Bob",
-      "specSection": "7.2"
+      "specSection": "9.3"
     }
   ]
 }

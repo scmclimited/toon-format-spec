@@ -11,7 +11,7 @@
         "name": "Ada",
         "active": true
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses null values in objects",
@@ -20,7 +20,7 @@
         "id": 123,
         "value": null
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses empty nested object header",
@@ -28,7 +28,7 @@
       "expected": {
         "user": {}
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted object value with colon",
@@ -36,7 +36,7 @@
       "expected": {
         "note": "a:b"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted object value with comma",
@@ -44,7 +44,7 @@
       "expected": {
         "note": "a,b"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted object value with newline escape",
@@ -52,7 +52,7 @@
       "expected": {
         "text": "line1\nline2"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted object value with escaped quotes",
@@ -60,7 +60,7 @@
       "expected": {
         "text": "say \"hello\""
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted object value with leading/trailing spaces",
@@ -68,7 +68,7 @@
       "expected": {
         "text": " padded "
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted object value with only spaces",
@@ -76,7 +76,7 @@
       "expected": {
         "text": "  "
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted string value that looks like true",
@@ -84,7 +84,7 @@
       "expected": {
         "v": "true"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted string value that looks like integer",
@@ -92,7 +92,7 @@
       "expected": {
         "v": "42"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted string value that looks like negative decimal",
@@ -100,7 +100,7 @@
       "expected": {
         "v": "-7.5"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted key with colon",
@@ -108,7 +108,7 @@
       "expected": {
         "order:id": 7
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted key with brackets",
@@ -116,7 +116,7 @@
       "expected": {
         "[index]": 5
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted key with braces",
@@ -124,7 +124,7 @@
       "expected": {
         "{key}": 5
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted key with comma",
@@ -132,7 +132,7 @@
       "expected": {
         "a,b": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted key with spaces",
@@ -140,7 +140,7 @@
       "expected": {
         "full name": "Ada"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted key with leading hyphen",
@@ -148,7 +148,7 @@
       "expected": {
         "-lead": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted key with leading and trailing spaces",
@@ -156,7 +156,7 @@
       "expected": {
         " a ": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted numeric key",
@@ -164,7 +164,7 @@
       "expected": {
         "123": "x"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses quoted empty string key",
@@ -172,7 +172,7 @@
       "expected": {
         "": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses dotted keys as identifiers",
@@ -180,7 +180,7 @@
       "expected": {
         "user.name": "Ada"
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses underscore-prefixed keys",
@@ -188,7 +188,7 @@
       "expected": {
         "_private": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses underscore-containing keys",
@@ -196,7 +196,7 @@
       "expected": {
         "user_name": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "unescapes newline in key",
@@ -204,7 +204,7 @@
       "expected": {
         "line\nbreak": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "unescapes tab in key",
@@ -212,7 +212,7 @@
       "expected": {
         "tab\there": 2
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "unescapes quotes in key",
@@ -220,7 +220,7 @@
       "expected": {
         "he said \"hi\"": 1
       },
-      "specSection": "6"
+      "specSection": "8"
     },
     {
       "name": "parses deeply nested objects with indentation",
@@ -232,7 +232,7 @@
           }
         }
       },
-      "specSection": "6"
+      "specSection": "8"
     }
   ]
 }

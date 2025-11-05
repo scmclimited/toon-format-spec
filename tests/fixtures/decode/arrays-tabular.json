@@ -12,7 +12,7 @@
           { "sku": "B2", "qty": 1, "price": 14.5 }
         ]
       },
-      "specSection": "7.2"
+      "specSection": "9.3"
     },
     {
       "name": "parses nulls and quoted values in tabular rows",
@@ -23,7 +23,18 @@
           { "id": 2, "value": "test" }
         ]
       },
-      "specSection": "7.2"
+      "specSection": "9.3"
+    },
+    {
+      "name": "parses quoted colon in tabular row as data",
+      "input": "items[2]{id,note}:\n  1,\"a:b\"\n  2,\"c:d\"",
+      "expected": {
+        "items": [
+          { "id": 1, "note": "a:b" },
+          { "id": 2, "note": "c:d" }
+        ]
+      },
+      "specSection": "9.3"
     },
     {
       "name": "parses quoted header keys in tabular arrays",
@@ -34,7 +45,7 @@
           { "order:id": 2, "full name": "Bob" }
         ]
       },
-      "specSection": "7.2"
+      "specSection": "9.3"
     },
     {
       "name": "parses quoted key with tabular array format",
@@ -45,7 +56,19 @@
           { "id": 2, "name": "Bob" }
         ]
       },
-      "specSection": "7.2"
+      "specSection": "9.3"
+    },
+    {
+      "name": "unquoted colon terminates tabular rows and starts key-value pair",
+      "input": "items[2]{id,name}:\n  1,Alice\n  2,Bob\ncount: 2",
+      "expected": {
+        "items": [
+          { "id": 1, "name": "Alice" },
+          { "id": 2, "name": "Bob" }
+        ],
+        "count": 2
+      },
+      "specSection": "9.3"
     }
   ]
 }

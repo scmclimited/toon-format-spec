@@ -9,7 +9,7 @@
         "id": 123
       },
       "expected": "id: 123",
-      "specSection": "4",
+      "specSection": "12",
       "note": "Output should not end with newline character"
     },
     {
@@ -22,7 +22,7 @@
         "items": ["a", "b"]
       },
       "expected": "user:\n  id: 123\n  name: Ada\nitems[2]: a,b",
-      "specSection": "4",
+      "specSection": "12",
       "note": "2-space indentation, no trailing spaces on any line"
     }
   ]

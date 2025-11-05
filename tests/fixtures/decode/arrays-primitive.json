@@ -9,7 +9,7 @@
       "expected": {
         "tags": ["reading", "gaming", "coding"]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses number arrays inline",
@@ -17,7 +17,7 @@
       "expected": {
         "nums": [1, 2, 3]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses mixed primitive arrays inline",
@@ -25,7 +25,7 @@
       "expected": {
         "data": ["x", "y", true, 10]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses empty arrays",
@@ -33,7 +33,7 @@
       "expected": {
         "items": []
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses single-item array with empty string",
@@ -41,7 +41,7 @@
       "expected": {
         "items": [""]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses multi-item array with empty string",
@@ -49,7 +49,7 @@
       "expected": {
         "items": ["a", "", "b"]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses whitespace-only strings in arrays",
@@ -57,7 +57,7 @@
       "expected": {
         "items": [" ", "  "]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses strings with delimiters in arrays",
@@ -65,7 +65,7 @@
       "expected": {
         "items": ["a", "b,c", "d:e"]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses strings that look like primitives when quoted",
@@ -73,7 +73,7 @@
       "expected": {
         "items": ["x", "true", "42", "-3.14"]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses strings with structural tokens in arrays",
@@ -81,7 +81,7 @@
       "expected": {
         "items": ["[5]", "- item", "{key}"]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses quoted key with inline array",
@@ -89,7 +89,7 @@
       "expected": {
         "my-key": [1, 2, 3]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses quoted key containing brackets with inline array",
@@ -97,7 +97,7 @@
       "expected": {
         "key[test]": [1, 2, 3]
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     },
     {
       "name": "parses quoted key with empty array",
@@ -105,7 +105,7 @@
       "expected": {
         "x-custom": []
       },
-      "specSection": "7.1"
+      "specSection": "9.1"
     }
   ]
 }
