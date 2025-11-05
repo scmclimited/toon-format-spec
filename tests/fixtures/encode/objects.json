@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "category": "encode",
   "description": "Object encoding - simple objects, nested objects, key encoding",
   "tests": [

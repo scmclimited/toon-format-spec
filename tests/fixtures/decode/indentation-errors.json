@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "category": "decode",
   "description": "Strict mode indentation validation - non-multiple indentation, tab characters, custom indent sizes",
   "tests": [

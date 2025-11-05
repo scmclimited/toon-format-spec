@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "category": "encode",
   "description": "Primitive array encoding - inline arrays of strings, numbers, booleans",
   "tests": [

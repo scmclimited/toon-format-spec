@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "category": "encode",
   "description": "Whitespace and formatting invariants - no trailing spaces, no trailing newlines",
   "tests": [

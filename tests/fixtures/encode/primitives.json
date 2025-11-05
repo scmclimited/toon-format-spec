@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "category": "encode",
   "description": "Primitive value encoding - strings, numbers, booleans, null",
   "tests": [

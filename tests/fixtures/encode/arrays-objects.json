@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "category": "encode",
   "description": "Arrays of objects encoding - list format for non-uniform objects and complex structures",
   "tests": [
@@ -121,7 +121,7 @@
         ]
       },
       "expected": "items[2]{a,b,c}:\n  1,2,3\n  10,20,30",
-      "specSection": "7.2"
+      "specSection": "9.3"
     },
     {
       "name": "uses list format when one object has nested column",

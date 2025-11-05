@@ -49,7 +49,7 @@ All test fixtures follow a standard JSON structure defined in [`fixtures.schema.
 
 ```json
 {
-  "version": "1.3",
+  "version": "1.4",
   "category": "encode",
   "description": "Brief description of test category",
   "tests": [
@@ -94,7 +94,7 @@ All test fixtures follow a standard JSON structure defined in [`fixtures.schema.
 }
 ```
 
-- `delimiter`: `","` (comma, default), `"\t"` (tab), or `"|"` (pipe)
+- `delimiter`: `","` (comma, default), `"\t"` (tab), or `"|"` (pipe). Affects encoder output for multiline object values; decoders parse what's present
 - `indent`: Number of spaces per indentation level (default: `2`)
 - `lengthMarker`: Optional. Set to `"#"` to prefix array lengths (e.g., `[#3]`). Omit this property to disable length markers
 

@@ -122,19 +122,6 @@ Your implementation can support multiple spec versions. If you do:
 - Previous version implementations remain valid
 - We'll provide a migration guide
 
-## Version Numbering Examples
-
-### Current: v1.3
-
-**Next minor update (clarifications, additions):**
-- v1.4
-
-**Next major update (breaking changes):**
-- v2.0
-
-**After v2.0, next minor update:**
-- v2.1
-
 ## Version History
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
