@@ -823,7 +823,7 @@ count: 2
 TOON's tabular format generalizes CSV [RFC4180] with several enhancements:
 
 Advantages over CSV:
-- Explicit array length markers enable validation
+- Explicit array length declarations enable validation
 - Field names declared in header (no separate header row)
 - Supports nested structures (CSV is flat-only)
 - Three delimiter options (comma/tab/pipe) vs CSV's comma-only
@@ -849,7 +849,7 @@ Conversion Guidelines:
 - CSV headers map to TOON field names
 - CSV data rows map to TOON tabular rows
 - CSV string escaping (double-quotes) maps to TOON quoting rules
-- CSV row count can be added as array length marker
+- CSV row count can be added as array length declaration
 
 ### 17.3 YAML Interoperability
 
